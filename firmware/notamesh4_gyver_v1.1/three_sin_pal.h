@@ -20,11 +20,7 @@ void three_sin_pal() {
     wave2 += beatsin8(15, -2, 2) * thisdir;
     wave3 += beatsin8(12, -3, 3) * thisdir;
 
-#if MAX_LEDS < 255
-    uint8_t k;
-#else
-    uint16_t k;
-#endif
+    Led_Count_t k;
 
     for (k = 0; k < KolLed; k++) {
       uint8_t tmp = sin8(mul1 * k + wave1) + sin8(mul1 * k + wave2) + sin8(mul1 * k + wave3);

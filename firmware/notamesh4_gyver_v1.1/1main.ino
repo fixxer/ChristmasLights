@@ -46,12 +46,13 @@ uint32_t IR_Time_Mode = 0;                                     //время по
 
 // Initialize changeable global variables.
 #if MAX_LEDS < 255
-uint8_t NUM_LEDS;                                           // Number of LED's we're actually using, and we can change this only the fly for the strand length.
-uint8_t KolLed;
+typedef uint8_t Led_Count_t;
 #else
-uint16_t NUM_LEDS;                                          // Number of LED's we're actually using, and we can change this only the fly for the strand length.
-uint16_t KolLed;
+typedef uint16_t Led_Count_t;
 #endif
+
+Led_Count_t NUM_LEDS;                                           // Number of LED's we're actually using, and we can change this only the fly for the strand length.
+Led_Count_t KolLed;
 
 int max_bright = 255;                                     // Overall brightness definition. It can be changed on the fly.
 
@@ -86,11 +87,7 @@ uint16_t meshdelay;                                             // Timer for the
 uint8_t ledMode = 0;                                            // номер текущего режима
 #if CHANGE_ON == 1
 uint8_t newMode = 0;                                        // номер нового режима
-#if MAX_LEDS < 255
-uint8_t StepMode = MAX_LEDS;                              // Текущий шаг перехода от нового режима до старого
-#else
-uint16_t StepMode = MAX_LEDS;                             // Текущий шаг перехода от нового режима до старого
-#endif
+Led_Count_t StepMode = MAX_LEDS;                              // Текущий шаг перехода от нового режима до старого
 #endif
 
 uint8_t demorun = DEMO_MODE;                                    // 0 = regular mode, 1 = demo mode, 2 = shuffle mode.

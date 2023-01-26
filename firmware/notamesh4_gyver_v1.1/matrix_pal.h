@@ -34,11 +34,7 @@ void matrix_pal() {                                           // One line matrix
         leds[KolLed - 1] = CHSV(bgclr, 255, bgbri);
     }
 
-#if MAX_LEDS < 255
-    uint8_t i;
-#else
-    uint16_t i;
-#endif
+    Led_Count_t i;
 
     if (thisdir == -1) {                                                                              // Move the foreground colour down the line.
       for (i = KolLed - 1; i > 0 ; i-- ) leds[i] = leds[i - 1];

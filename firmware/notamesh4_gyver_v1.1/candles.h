@@ -4,11 +4,7 @@
 void candles() {
   if (KolLed >= 10) {
 
-#if MAX_LEDS < 255
-    uint8_t x;
-#else
-    uint16_t x;
-#endif
+    Led_Count_t x;
 
     for (x = 0; x < KolLed; x++)
     {

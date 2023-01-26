@@ -22,11 +22,7 @@ void colorwaves()
   static uint16_t sPseudotime = 0;
   static uint16_t sLastMillis = 0;
   static uint16_t sHue16 = 0;
-#if MAX_LEDS < 255
-  uint8_t i;
-#else
-  uint16_t i;
-#endif
+  Led_Count_t i;
 
   if (KolLed >= 10) {
     uint8_t brightdepth = beatsin88( 341, 96, 224);

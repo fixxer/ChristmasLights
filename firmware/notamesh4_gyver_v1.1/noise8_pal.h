@@ -12,11 +12,8 @@ uint8_t scale = 30;          // Wouldn't recommend changing this on the fly, or 
 
 void noise8_pal() {
 
-#if MAX_LEDS < 255
-  uint8_t i;
-#else
-  uint16_t i;
-#endif
+  Led_Count_t i;
+
   if (KolLed >= 10) {
     for ( i = 0; i < KolLed; i++) {                                     // Just ONE loop to fill up the LED array as all of the pixels change.
       uint8_t index = inoise8(i * scale, dist + i * scale) % 255;            // Get a value from the noise function. I'm using both x and y axis.

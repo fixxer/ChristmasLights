@@ -31,11 +31,8 @@ void one_sin_pal() {
   thisindex = startindex;
   thisphase += thisdir;                                                                       // You can change direction and speed individually.
 
-#if MAX_LEDS < 255
-  uint8_t k;
-#else
-  uint16_t k;
-#endif
+  Led_Count_t k;
+
   if (KolLed >= 10) {
     for (k = 0; k < KolLed; k++) {                                                         // For each of the LED's in the strand, set a brightness based on a wave as follows:
       int thisbright = qsubd(cubicwave8((k * allfreq) + thisphase), thiscutoff);                // qsub sets a minimum value called thiscutoff. If < thiscutoff, then bright = 0. Otherwise, bright = 128 (as defined in qsub)..

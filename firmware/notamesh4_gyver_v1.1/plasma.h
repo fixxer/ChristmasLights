@@ -16,11 +16,8 @@ void plasma(uint8_t freq1, uint8_t freq2, int8_t phase1, int8_t phase2) {       
   int thisPhase = beatsin8(phase1, -64, 64);                                              // Setting phase change for a couple of waves.
   int thatPhase = beatsin8(phase2, -64, 64);
 
-#if MAX_LEDS < 255
-  uint8_t k;
-#else
-  uint16_t k;
-#endif
+  Led_Count_t k;
+
   if (KolLed >= 10) {
 
     for (k = 0; k < KolLed; k++) {                                                    // For each of the LED's in the strand, set a brightness based on a wave as follows:

@@ -25,11 +25,7 @@ void two_sin() {                                                              //
     thishue = thishue + thisrot;                                                // Hue rotation is fun for thiswave.
     thathue = thathue + thatrot;                                                // It's also fun for thatwave.
 
-#if MAX_LEDS < 255
-    uint8_t k;
-#else
-    uint16_t k;
-#endif
+    Led_Count_t k;
 
     for (k = 0; k < KolLed; k++) {
       int thisbright = qsuba(cubicwave8((k * allfreq) + thisphase), thiscutoff); // qsub sets a minimum value called thiscutoff. If < thiscutoff, then bright = 0. Otherwise, bright = 128 (as defined in qsub)..

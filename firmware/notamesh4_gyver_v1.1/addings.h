@@ -33,11 +33,7 @@ void addcandle()
 ///////////////////////////////////////////////////////////////// Черный фон
 void addbackground()
 {
-#if MAX_LEDS < 255
-  uint8_t i;
-#else
-  uint16_t i;
-#endif
+  Led_Count_t i;
 
   for (i = 0; i < NUM_LEDS ; i++ )
     if (  (leds[i].r < 5) &&
