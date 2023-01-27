@@ -1,3 +1,13 @@
+#if LOG_ON == 1
+# define LOGD_INIT() Serial.begin(SERIAL_BAUDRATE)
+# define LOGD(...) Serial.print(__VA_ARGS__)
+# define LOGD_LN(...) Serial.println(__VA_ARGS__)
+#else
+# define LOGD_INIT()
+# define LOGD(...)
+# define LOGD_LN(...)
+#endif
+
 #if (IR_ON == 1) && (KOL_LED > IR_MAX_LEDS)
 #error "Значение KOL_LED должно быть меньше или равно IR_MAX_LEDS"
 #endif
@@ -176,11 +186,10 @@ void setup() {
   analog_keys_setup();                                                        //Для аналоговых кнопок
 #endif
 
-#if LOG_ON == 1
-  Serial.begin(SERIAL_BAUDRATE);                                                  // Setup serial baud rate
+  LOGD_INIT();
+  LOGD_LN(F(" "));
+  LOGD_LN(F("---SETTING UP---"))
 
-  Serial.println(F(" ")); Serial.println(F("---SETTING UP---"));
-#endif
   delay(1000);                                                                    // Slow startup so we can re-upload in the case of errors.
 
 #if IR_ON == 1
@@ -242,10 +251,8 @@ NUM_LEDS = MAX_LEDS; // Need to ensure NUM_LEDS < MAX_LEDS elsewhere.
   meshdelay = INITDEL;
 #endif
 
-#if LOG_ON == 1
-  Serial.print(F("Initial delay: ")); Serial.print(meshdelay * 100); Serial.println(F("ms delay."));
-  Serial.print(F("Initial strand length: ")); Serial.print(NUM_LEDS); Serial.println(F(" LEDs"));
-#endif
+  LOGD(F("Initial delay: ")); LOGD(meshdelay * 100); LOGD_LN(F("ms delay."));
+  LOGD(F("Initial strand length: ")); LOGD(NUM_LEDS); LOGD_LN(F(" LEDs"));
 
 #if BLACKSTART == 1
   solid = CRGB::Black;                 //Запуск с пустого поля
@@ -264,13 +271,11 @@ NUM_LEDS = MAX_LEDS; // Need to ensure NUM_LEDS < MAX_LEDS elsewhere.
   gTargetPalette = gGradientPalettes[0];
   strobe_mode(ledMode, 1);                                                        // Initialize the first sequence
 
-#if LOG_ON == 1
   if (DEMO_MODE) {
-    Serial.print(F("DEMO MODE "));
-    Serial.println(DEMO_MODE);
+    LOGD(F("DEMO MODE "));
+    LOGD_LN(DEMO_MODE);
   }
-  Serial.println(F("---SETUP COMPLETE---"));
-#endif
+  LOGD_LN(F("---SETUP COMPLETE---"));
 } // setup()
 
 
@@ -338,11 +343,12 @@ void loop() {
     if (palchg) {
       EVERY_N_SECONDS(PALETTE_TIME) {                                            // Смена палитры
         if (palchg == 3) {
-          if (gCurrentPaletteNumber < (gGradientPaletteCount - 1))  gCurrentPaletteNumber++;
-          else                                                    gCurrentPaletteNumber = 0;
-#if LOG_ON == 1
-          Serial.print(F("New Palette: "));  Serial.println(gCurrentPaletteNumber);
-#endif
+          if (gCurrentPaletteNumber < (gGradientPaletteCount - 1)) {
+            gCurrentPaletteNumber++;
+          } else {
+            gCurrentPaletteNumber = 0;
+          }                                                    
+          LOGD(F("New Palette: ")); LOGD_LN(gCurrentPaletteNumber);
         }
         gTargetPalette = gGradientPalettes[gCurrentPaletteNumber];              // We're just ensuring that the gTargetPalette WILL be assigned.
       }
@@ -380,9 +386,7 @@ void loop() {
         if (StepMode >= NUM_LEDS)
         { ledMode = newMode;
           StepMode = MAX_LEDS;
-#if LOG_ON == 1
-          Serial.println(F("End SetMode"));
-#endif
+          LOGD_LN(F("End SetMode"));
         }
         nblendPaletteTowardPalette(gCurrentPalette, gTargetPalette, NUM_LEDS);
       }
@@ -444,11 +448,8 @@ void strobe_mode(uint8_t mode, bool mc) {                  // mc stands for 'Mod
 
   if (mc) {
     fill_solid(leds, NUM_LEDS, CRGB(0, 0, 0));                // Clean up the array for the first time through. Don't show display though, so you may have a smooth transition.
-#   if LOG_ON == 1
-    Serial.print(F("Mode: "));
-    Serial.println(mode);
-    Serial.println(millis());
-#   endif
+    LOGD(F("Mode: ")); LOGD_LN(mode);
+    LOGD_LN(millis());
 
 #   if PALETTE_TIME>0
     if (palchg == 0) palchg = 3;
@@ -809,9 +810,9 @@ void strobe_mode(uint8_t mode, bool mc) {                  // mc stands for 'Mod
 
 #if LOG_ON == 1
   if (mc) {
-    if ( palchg == 0 ) Serial.println(F("Change palette off"));
-    else if ( palchg == 1 ) Serial.println(F("Change palette Stop"));
-    else if ( palchg == 3 ) Serial.println(F("Change palette ON"));
+    if ( palchg == 0 ) LOGD_LN(F("Change palette off"));
+    else if ( palchg == 1 ) LOGD_LN(F("Change palette Stop"));
+    else if ( palchg == 3 ) LOGD_LN(F("Change palette ON"));
   }
 #endif
 
@@ -844,14 +845,10 @@ void demo_check() {
       rand_spark = random8(3) + 1;
 #endif
 
-#if LOG_ON == 1
-      Serial.println(F("Start SetMode"));
-#endif
+      LOGD_LN(F("Start SetMode"));
 #else
       gTargetPalette = gGradientPalettes[gCurrentPaletteNumber];  //Применим палитру
-#if LOG_ON == 1
-      Serial.print(F("New Palette: "));  Serial.println(gCurrentPaletteNumber);
-#endif
+      LOGD(F("New Palette: ")); LOGD_LN(gCurrentPaletteNumber);
       switch (demorun)  {
         case 2:   ledMode = random8(0, maxMode);                // демо 2
           break;

@@ -48,10 +48,8 @@ void analog_keys_tick(Analog_Keys_t *analog_keys, uint8_t *protocol, uint32_t *c
              ((millis() - analog_keys->key_time) >= 50)) {                                //Закончилось время дребезга
     analog_keys->bounce = 0;                                                              //Больше не обрабатываем
     analog_keys->input = analog_keys->input_new;
-#if LOG_ON == 1
-    Serial.print(F("Analog Key: "));
-    Serial.println(analog_keys->input);
-#endif
+    LOGD(F("Analog Key: "));
+    LOGD_LN(analog_keys->input);
 
 #if KEY_0 >= KEY_DELTA
     if  (((KEY_0 - KEY_DELTA) < analog_keys->input) &&

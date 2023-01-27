@@ -24,9 +24,7 @@ void getirl() {                                                   // This is the
 
   if (Protocol) {
 
-#if LOG_ON == 1
-    Serial.print(F("Command: 0x")); Serial.println(Command, HEX);
-#endif
+    LOGD(F("Command: 0x")); LOGD_LN(Command, HEX);
 
     switch (Command) {
 
@@ -34,9 +32,7 @@ void getirl() {                                                   // This is the
       case IR_Key_Brightness_plus :   //////////////////////////////////////////////////////////////////////////  Увеличить максимальную яркость
         max_bright = min(max_bright * 2, 255);
         LEDS.setBrightness(max_bright);
-#if LOG_ON == 1
-        Serial.print(F("Brightness+ ")); Serial.println(max_bright);
-#endif
+        LOGD(F("Brightness+ ")); LOGD_LN(max_bright);
         break;
 #endif
 
@@ -44,54 +40,42 @@ void getirl() {                                                   // This is the
       case IR_Key_Brightness_minus :    /////////////////////////////////////////////////////////////////////////  Уменьшить максимальную яркость
         max_bright = max(max_bright / 2, 1);
         LEDS.setBrightness(max_bright);
-#if LOG_ON == 1
-        Serial.print(F("Brightness- ")); Serial.println(max_bright);
-#endif
+        LOGD(F("Brightness- ")); LOGD_LN(max_bright);
         break;
 #endif
 
 #if IR_Key_Reset
       case IR_Key_Reset :              ///////////////////////////////////////////////////////////////////////////  Сброс всех настроек
         ledMode = 0; strobe_mode(ledMode, 1); FastLED.show(); bootme();
-#if LOG_ON == 1
-        Serial.println(F("Reset"));
-#endif
+        LOGD_LN(F("Reset"));
         break;
 #endif
 
 #if IR_Key_Demo
       case IR_Key_Demo :            /////////////////////////////////////////////////////////////////////////////  Включит демо режим (перебор)
         demorun = 1; meshwait();
-#if LOG_ON == 1
-        Serial.println(F("Demo On"));
-#endif
+        LOGD_LN(F("Demo On"));
         break;
 #endif
 
 #if IR_Key_Demo_Random
       case IR_Key_Demo_Random :     /////////////////////////////////////////////////////////////////////////////  Включит демо режим (Случайно)
         demorun = 2; meshwait();
-#if LOG_ON == 1
-        Serial.println(F("Demo Random On"));
-#endif
+        LOGD_LN(F("Demo Random On"));
         break;
 #endif
 
 #if IR_Key_Demo_MyMode
       case IR_Key_Demo_MyMode :         /////////////////////////////////////////////////////////////////////////////  Включит демо режим из выбранных режимов (перебор)
         demorun = 3; meshwait();
-#if LOG_ON == 1
-        Serial.println(F("Demo On"));
-#endif
+        LOGD_LN(F("Demo On"));
         break;
 #endif
 
 #if IR_Key_Demo_MyMode_Random
       case IR_Key_Demo_MyMode_Random :     /////////////////////////////////////////////////////////////////////////////  Включит демо режим из выбранных режимов (Случайно)
         demorun = 4; meshwait();
-#if LOG_ON == 1
-        Serial.println(F("Demo Random On"));
-#endif
+        LOGD_LN(F("Demo Random On"));
         break;
 #endif
 
@@ -107,9 +91,7 @@ void getirl() {                                                   // This is the
         EEPROM.write(STRANDLEN + 1, (uint16_t)(NUM_LEDS) >> 8);         //Сохранить в память
 #endif
 #endif
-#if LOG_ON == 1
-        Serial.print(F("Length Garland ")); Serial.println(NUM_LEDS);
-#endif
+        LOGD(F("Length Garland ")); LOGD_LN(NUM_LEDS);
         break;
 #endif
 
@@ -125,9 +107,7 @@ void getirl() {                                                   // This is the
         EEPROM.write(STRANDLEN + 1, (uint16_t)(NUM_LEDS) >> 8);         //Сохранить в память
 #endif
 #endif
-#if LOG_ON == 1
-        Serial.print(F("Length Garland ")); Serial.println(NUM_LEDS);
-#endif
+        LOGD(F("Length Garland ")); LOGD_LN(NUM_LEDS);
         break;
 #endif
 
@@ -135,9 +115,7 @@ void getirl() {                                                   // This is the
       case IR_Key_Rotate :             ///////////////////////////////////////////////////////////////////////////  Сменить направление движения эффектов
         if (Protocol == 1) {          //отключить повтор
           thisdir = thisdir * -1;
-#if LOG_ON == 1
-          Serial.println(F("Rotate"));
-#endif
+          LOGD_LN(F("Rotate"));
         }
         break;
 #endif
@@ -145,18 +123,14 @@ void getirl() {                                                   // This is the
 #if IR_Key_Speed_minus
       case IR_Key_Speed_minus :                ///////////////////////////////////////////////////////////////////////////  Замедлить движение
         if (thisdelay < 1000) thisdelay++;
-#if LOG_ON == 1
-        Serial.print(F("Speed- ")); Serial.println(thisdelay);
-#endif
+        LOGD(F("Speed- ")); LOGD_LN(thisdelay);
         break;
 #endif
 
 #if IR_Key_Speed_plus
       case IR_Key_Speed_plus :                ///////////////////////////////////////////////////////////////////////////  Ускорить движение
         if (thisdelay > 0) thisdelay--;
-#if LOG_ON == 1
-        Serial.print(F("Speed+ ")); Serial.println(thisdelay);
-#endif
+        LOGD(F("Speed+ ")); LOGD_LN(thisdelay);
         break;
 #endif
 
@@ -164,9 +138,7 @@ void getirl() {                                                   // This is the
       case IR_Key_Glitter :                ///////////////////////////////////////////////////////////////////////////  Включить/выключить сверкание
         if (Protocol == 1) {          //отключить повтор
           glitter = !glitter;
-#if LOG_ON == 1
-          Serial.print(F("Glitter ")); Serial.println(glitter);
-#endif
+          LOGD(F("Glitter ")); LOGD_LN(glitter);
         }
         break;
 #endif
@@ -175,9 +147,7 @@ void getirl() {                                                   // This is the
       case IR_Key_BackGround :                ///////////////////////////////////////////////////////////////////////////  Включить/выключить заполнение фона
         if (Protocol == 1) {          //отключить повтор
           background = !background;
-#if LOG_ON == 1
-          Serial.print(F("BackGround ")); Serial.println(background);
-#endif
+          LOGD(F("BackGround ")); LOGD_LN(background);
         }
         break;
 #endif
@@ -188,9 +158,7 @@ void getirl() {                                                   // This is the
         if (Protocol == 1) {          //отключить повтор
           candle = !candle;
           PolCandle = random8(10);
-#if LOG_ON == 1
-          Serial.print(F("Candle ")); Serial.println(candle);
-#endif
+          LOGD(F("Candle ")); LOGD_LN(candle);
         }
 #endif
         break;
@@ -201,9 +169,7 @@ void getirl() {                                                   // This is the
         if (Protocol == 1) {          //отключить повтор
           if (ledMode > 0)  SetMode(ledMode - 1);
           else            SetMode(maxMode);
-#if LOG_ON == 1
-          Serial.println(F("Previous mode"));
-#endif
+          LOGD_LN(F("Previous mode"));
         }
         break;
 #endif
@@ -213,9 +179,7 @@ void getirl() {                                                   // This is the
         if (Protocol == 1) {          //отключить повтор
           if (ledMode >= (maxMode))  SetMode(0);
           else                      SetMode(ledMode + 1);
-#if LOG_ON == 1
-          Serial.println(F("Next mode"));
-#endif
+          LOGD_LN(F("Next mode"));
         }
         break;
 #endif
@@ -225,9 +189,7 @@ void getirl() {                                                   // This is the
         if (Protocol == 1) {          //отключить повтор
           IR_New_Mode = (IR_New_Mode / 10) * 10;
           IR_Time_Mode = millis();//время последнего нажатия
-#if LOG_ON == 1
-          Serial.print(F("Press 0 Mode: ")); Serial.println(IR_New_Mode);
-#endif
+          LOGD(F("Press 0 Mode: ")); LOGD_LN(IR_New_Mode);
         }
         break;
 #endif
@@ -237,9 +199,7 @@ void getirl() {                                                   // This is the
         if (Protocol == 1) {          //отключить повтор
           IR_New_Mode = (IR_New_Mode / 10) * 10 + 1;
           IR_Time_Mode = millis();//время последнего нажатия
-#if LOG_ON == 1
-          Serial.print(F("Press 1 Mode: ")); Serial.println(IR_New_Mode);
-#endif
+          LOGD(F("Press 1 Mode: ")); LOGD_LN(IR_New_Mode);
         }
         break;
 #endif
@@ -249,9 +209,7 @@ void getirl() {                                                   // This is the
         if (Protocol == 1) {          //отключить повтор
           IR_New_Mode = (IR_New_Mode / 10) * 10 + 2;
           IR_Time_Mode = millis();//время последнего нажатия
-#if LOG_ON == 1
-          Serial.print(F("Press 2 Mode: ")); Serial.println(IR_New_Mode);
-#endif
+          LOGD(F("Press 2 Mode: ")); LOGD_LN(IR_New_Mode);
         }
         break;
 #endif
@@ -261,9 +219,7 @@ void getirl() {                                                   // This is the
         if (Protocol == 1) {          //отключить повтор
           IR_New_Mode = (IR_New_Mode / 10) * 10 + 3;
           IR_Time_Mode = millis();//время последнего нажатия
-#if LOG_ON == 1
-          Serial.print(F("Press 3 Mode: ")); Serial.println(IR_New_Mode);
-#endif
+          LOGD(F("Press 3 Mode: ")); LOGD_LN(IR_New_Mode);
         }
         break;
 #endif
@@ -273,9 +229,7 @@ void getirl() {                                                   // This is the
         if (Protocol == 1) {          //отключить повтор
           IR_New_Mode = (IR_New_Mode / 10) * 10 + 4;
           IR_Time_Mode = millis();//время последнего нажатия
-#if LOG_ON == 1
-          Serial.print(F("Press 4 Mode: ")); Serial.println(IR_New_Mode);
-#endif
+          LOGD(F("Press 4 Mode: ")); LOGD_LN(IR_New_Mode);
         }
         break;
 #endif
@@ -285,9 +239,7 @@ void getirl() {                                                   // This is the
         if (Protocol == 1) {          //отключить повтор
           IR_New_Mode = (IR_New_Mode / 10) * 10 + 5;
           IR_Time_Mode = millis();//время последнего нажатия
-#if LOG_ON == 1
-          Serial.print(F("Press 5 Mode: ")); Serial.println(IR_New_Mode);
-#endif
+          LOGD(F("Press 5 Mode: ")); LOGD_LN(IR_New_Mode);
         }
         break;
 #endif
@@ -297,9 +249,7 @@ void getirl() {                                                   // This is the
         if (Protocol == 1) {          //отключить повтор
           IR_New_Mode = (IR_New_Mode / 10) * 10 + 6;
           IR_Time_Mode = millis();//время последнего нажатия
-#if LOG_ON == 1
-          Serial.print(F("Press 6 Mode: ")); Serial.println(IR_New_Mode);
-#endif
+          LOGD(F("Press 6 Mode: ")); LOGD_LN(IR_New_Mode);
         }
         break;
 #endif
@@ -309,9 +259,7 @@ void getirl() {                                                   // This is the
         if (Protocol == 1) {          //отключить повтор
           IR_New_Mode = (IR_New_Mode / 10) * 10 + 7;
           IR_Time_Mode = millis();//время последнего нажатия
-#if LOG_ON == 1
-          Serial.print(F("Press 7 Mode: ")); Serial.println(IR_New_Mode);
-#endif
+          LOGD(F("Press 7 Mode: ")); LOGD_LN(IR_New_Mode);
         }
         break;
 #endif
@@ -321,9 +269,7 @@ void getirl() {                                                   // This is the
         if (Protocol == 1) {          //отключить повтор
           IR_New_Mode = (IR_New_Mode / 10) * 10 + 8;
           IR_Time_Mode = millis();//время последнего нажатия
-#if LOG_ON == 1
-          Serial.print(F("Press 8 Mode: ")); Serial.println(IR_New_Mode);
-#endif
+          LOGD(F("Press 8 Mode: ")); LOGD_LN(IR_New_Mode);
         }
         break;
 #endif
@@ -333,9 +279,7 @@ void getirl() {                                                   // This is the
         if (Protocol == 1) {          //отключить повтор
           IR_New_Mode = (IR_New_Mode / 10) * 10 + 9;
           IR_Time_Mode = millis();//время последнего нажатия
-#if LOG_ON == 1
-          Serial.print(F("Press 9 Mode: ")); Serial.println(IR_New_Mode);
-#endif
+          LOGD(F("Press 9 Mode: ")); LOGD_LN(IR_New_Mode);
         }
         break;
 #endif
@@ -346,9 +290,7 @@ void getirl() {                                                   // This is the
           IR_New_Mode += 10;
           if (IR_New_Mode > maxMode) IR_New_Mode = IR_New_Mode % 10;
           IR_Time_Mode = millis();//время последнего нажатия
-#if LOG_ON == 1
-          Serial.print(F("Press +10 Mode: ")); Serial.println(IR_New_Mode);
-#endif
+          LOGD(F("Press +10 Mode: ")); LOGD_LN(IR_New_Mode);
         }
         break;
 #endif
@@ -358,9 +300,7 @@ void getirl() {                                                   // This is the
         if (Protocol == 1) {          //отключить повтор
           IR_New_Mode = (IR_New_Mode % 10) * 10 + 0;
           IR_Time_Mode = millis();//время последнего нажатия
-#if LOG_ON == 1
-          Serial.print(F("Press 0 Mode: ")); Serial.println(IR_New_Mode);
-#endif
+          LOGD(F("Press 0 Mode: ")); LOGD_LN(IR_New_Mode);
         }
         break;
 #endif
@@ -370,9 +310,7 @@ void getirl() {                                                   // This is the
         if (Protocol == 1) {          //отключить повтор
           IR_New_Mode = (IR_New_Mode % 10) * 10 + 1;
           IR_Time_Mode = millis();//время последнего нажатия
-#if LOG_ON == 1
-          Serial.print(F("Press 1 Mode: ")); Serial.println(IR_New_Mode);
-#endif
+          LOGD(F("Press 1 Mode: ")); LOGD_LN(IR_New_Mode);
         }
         break;
 #endif
@@ -382,9 +320,7 @@ void getirl() {                                                   // This is the
         if (Protocol == 1) {          //отключить повтор
           IR_New_Mode = (IR_New_Mode % 10) * 10 + 2;
           IR_Time_Mode = millis();//время последнего нажатия
-#if LOG_ON == 1
-          Serial.print(F("Press 2 Mode: ")); Serial.println(IR_New_Mode);
-#endif
+          LOGD(F("Press 2 Mode: ")); LOGD_LN(IR_New_Mode);
         }
         break;
 #endif
@@ -394,9 +330,7 @@ void getirl() {                                                   // This is the
         if (Protocol == 1) {          //отключить повтор
           IR_New_Mode = (IR_New_Mode % 10) * 10 + 3;
           IR_Time_Mode = millis();//время последнего нажатия
-#if LOG_ON == 1
-          Serial.print(F("Press 3 Mode: ")); Serial.println(IR_New_Mode);
-#endif
+          LOGD(F("Press 3 Mode: ")); LOGD_LN(IR_New_Mode);
         }
         break;
 #endif
@@ -406,9 +340,7 @@ void getirl() {                                                   // This is the
         if (Protocol == 1) {          //отключить повтор
           IR_New_Mode = (IR_New_Mode % 10) * 10 + 4;
           IR_Time_Mode = millis();//время последнего нажатия
-#if LOG_ON == 1
-          Serial.print(F("Press 4 Mode: ")); Serial.println(IR_New_Mode);
-#endif
+          LOGD(F("Press 4 Mode: ")); LOGD_LN(IR_New_Mode);
         }
         break;
 #endif
@@ -418,9 +350,7 @@ void getirl() {                                                   // This is the
         if (Protocol == 1) {          //отключить повтор
           IR_New_Mode = (IR_New_Mode % 10) * 10 + 5;
           IR_Time_Mode = millis();//время последнего нажатия
-#if LOG_ON == 1
-          Serial.print(F("Press 5 Mode: ")); Serial.println(IR_New_Mode);
-#endif
+          LOGD(F("Press 5 Mode: ")); LOGD_LN(IR_New_Mode);
         }
         break;
 #endif
@@ -430,9 +360,7 @@ void getirl() {                                                   // This is the
         if (Protocol == 1) {          //отключить повтор
           IR_New_Mode = (IR_New_Mode % 10) * 10 + 6;
           IR_Time_Mode = millis();//время последнего нажатия
-#if LOG_ON == 1
-          Serial.print(F("Press 6 Mode: ")); Serial.println(IR_New_Mode);
-#endif
+          LOGD(F("Press 6 Mode: ")); LOGD_LN(IR_New_Mode);
         }
         break;
 #endif
@@ -442,9 +370,7 @@ void getirl() {                                                   // This is the
         if (Protocol == 1) {          //отключить повтор
           IR_New_Mode = (IR_New_Mode % 10) * 10 + 7;
           IR_Time_Mode = millis();//время последнего нажатия
-#if LOG_ON == 1
-          Serial.print(F("Press 7 Mode: ")); Serial.println(IR_New_Mode);
-#endif
+          LOGD(F("Press 7 Mode: ")); LOGD_LN(IR_New_Mode);
         }
         break;
 #endif
@@ -454,9 +380,7 @@ void getirl() {                                                   // This is the
         if (Protocol == 1) {          //отключить повтор
           IR_New_Mode = (IR_New_Mode % 10) * 10 + 8;
           IR_Time_Mode = millis();//время последнего нажатия
-#if LOG_ON == 1
-          Serial.print(F("Press 8 Mode: ")); Serial.println(IR_New_Mode);
-#endif
+          LOGD(F("Press 8 Mode: ")); LOGD_LN(IR_New_Mode);
         }
         break;
 #endif
@@ -466,9 +390,7 @@ void getirl() {                                                   // This is the
         if (Protocol == 1) {          //отключить повтор
           IR_New_Mode = (IR_New_Mode % 10) * 10 + 9;
           IR_Time_Mode = millis();//время последнего нажатия
-#if LOG_ON == 1
-          Serial.print(F("Press 9 Mode: ")); Serial.println(IR_New_Mode);
-#endif
+          LOGD(F("Press 9 Mode: ")); LOGD_LN(IR_New_Mode);
         }
         break;
 #endif
@@ -690,9 +612,7 @@ void getirl() {                                                   // This is the
 #if IR_ON == 1
           EEPROM.write(STARTMODE, ledMode);
 #endif
-#if LOG_ON == 1
-          Serial.println(F("Save Mode"));
-#endif
+          LOGD_LN(F("Save Mode"));
         }
         break;
 #endif
@@ -704,9 +624,7 @@ void getirl() {                                                   // This is the
 #if IR_ON == 1
         EEPROM.write(STRANDEL, meshdelay);
 #endif
-#if LOG_ON == 1
-        Serial.print(F("Delay ")); Serial.print(meshdelay * 100); Serial.println(F(" ms"));
-#endif
+        LOGD(F("Delay ")); LOGD(meshdelay * 100); LOGD_LN(F(" ms"));
         break;
 #endif
 
@@ -717,18 +635,14 @@ void getirl() {                                                   // This is the
 #if IR_ON == 1
         EEPROM.write(STRANDEL, meshdelay);
 #endif
-#if LOG_ON == 1
-        Serial.print(F("Delay ")); Serial.print(meshdelay * 100); Serial.println(F(" ms"));
-#endif
+        LOGD(F("Delay ")); LOGD(meshdelay * 100); LOGD_LN(F(" ms"));
         break;
 #endif
 
 #if IR_Key_Palette_Stop
       case IR_Key_Palette_Stop :            ///////////////////////////////////////////////////////////////////////////  Остановить перебор Палитр
         palchg = 0;
-#if LOG_ON == 1
-        Serial.print(F("Palette_Stop ")); Serial.println(gCurrentPaletteNumber);
-#endif
+        LOGD(F("Palette_Stop ")); LOGD_LN(gCurrentPaletteNumber);
         break;
 #endif
 
@@ -739,9 +653,7 @@ void getirl() {                                                   // This is the
           if (gCurrentPaletteNumber > 0)  gCurrentPaletteNumber--;
           else                            gCurrentPaletteNumber = gGradientPaletteCount - 1;
           gCurrentPalette = (gGradientPalettes[gCurrentPaletteNumber]);
-#if LOG_ON == 1
-          Serial.print(F("Palette- ")); Serial.println(gCurrentPaletteNumber);
-#endif
+          LOGD(F("Palette- ")); LOGD_LN(gCurrentPaletteNumber);
         }
         break;
 #endif
@@ -753,9 +665,7 @@ void getirl() {                                                   // This is the
           if (gCurrentPaletteNumber < (gGradientPaletteCount - 1))  gCurrentPaletteNumber++;
           else                                                gCurrentPaletteNumber = 0;
           gCurrentPalette = (gGradientPalettes[gCurrentPaletteNumber]);
-#if LOG_ON == 1
-          Serial.print(F("Palette+ ")); Serial.println(gCurrentPaletteNumber);
-#endif
+          LOGD(F("Palette+ ")); LOGD_LN(gCurrentPaletteNumber);
         }
         break;
 #endif
@@ -763,9 +673,7 @@ void getirl() {                                                   // This is the
 #if IR_Key_Palette_Auto
       case IR_Key_Palette_Auto :            ///////////////////////////////////////////////////////////////////////////  Включить перебор палитр
         palchg = 3;
-#if LOG_ON == 1
-        Serial.println(F("Continuous palette change"));
-#endif
+        LOGD_LN(F("Continuous palette change"));
         break;
 #endif
 
@@ -773,9 +681,7 @@ void getirl() {                                                   // This is the
       case IR_Key_Solid_Black :            ///////////////////////////////////////////////////////////////////////////  Установить цвет Черный
         demorun = 0; ledMode = 100; palchg = 0;
         solid = CRGB::Black;
-#if LOG_ON == 1
-        Serial.println(F("Solid_Black"));
-#endif
+        LOGD_LN(F("Solid_Black"));
         break;
 #endif
 
@@ -783,9 +689,7 @@ void getirl() {                                                   // This is the
       case IR_Key_Solid_Red :            ///////////////////////////////////////////////////////////////////////////  Установить цвет Красный
         demorun = 0; ledMode = 100; palchg = 0;
         solid = CRGB::Red;
-#if LOG_ON == 1
-        Serial.println(F("Solid_Red"));
-#endif
+        LOGD_LN(F("Solid_Red"));
         break;
 #endif
 
@@ -793,9 +697,7 @@ void getirl() {                                                   // This is the
       case IR_Key_Solid_Orange :            ///////////////////////////////////////////////////////////////////////////  Установить цвет Оранжевый
         demorun = 0; ledMode = 100; palchg = 0;
         solid = CRGB::Orange;
-#if LOG_ON == 1
-        Serial.println(F("Solid_Orange"));
-#endif
+        LOGD_LN(F("Solid_Orange"));
         break;
 #endif
 
@@ -803,9 +705,7 @@ void getirl() {                                                   // This is the
       case IR_Key_Solid_Yellow :            ///////////////////////////////////////////////////////////////////////////  Установить цвет Желтый
         demorun = 0; ledMode = 100; palchg = 0;
         solid = CRGB::Yellow;
-#if LOG_ON == 1
-        Serial.println(F("Solid_Yellow"));
-#endif
+        LOGD_LN(F("Solid_Yellow"));
         break;
 #endif
 
@@ -813,9 +713,7 @@ void getirl() {                                                   // This is the
       case IR_Key_Solid_Green :            ///////////////////////////////////////////////////////////////////////////  Установить цвет Зеленый
         demorun = 0; ledMode = 100; palchg = 0;
         solid = CRGB::Green;
-#if LOG_ON == 1
-        Serial.println(F("Solid_Green"));
-#endif
+        LOGD_LN(F("Solid_Green"));
         break;
 #endif
 
@@ -823,9 +721,7 @@ void getirl() {                                                   // This is the
       case IR_Key_Solid_SkyBlue :            ///////////////////////////////////////////////////////////////////////////  Установить цвет Голубой
         demorun = 0; ledMode = 100; palchg = 0;
         solid = CRGB::SkyBlue;
-#if LOG_ON == 1
-        Serial.println(F("Solid_SkyBlue"));
-#endif
+        LOGD_LN(F("Solid_SkyBlue"));
         break;
 #endif
 
@@ -833,9 +729,7 @@ void getirl() {                                                   // This is the
       case IR_Key_Solid_Blue :            ///////////////////////////////////////////////////////////////////////////  Установить цвет Синий
         demorun = 0; ledMode = 100; palchg = 0;
         solid = CRGB::Blue;
-#if LOG_ON == 1
-        Serial.println(F("Solid_Blue"));
-#endif
+        LOGD_LN(F("Solid_Blue"));
         break;
 #endif
 
@@ -843,9 +737,7 @@ void getirl() {                                                   // This is the
       case IR_Key_Solid_Violet :            ///////////////////////////////////////////////////////////////////////////  Установить цвет Фиолетовый
         demorun = 0; ledMode = 100; palchg = 0;
         solid = CRGB::Violet;
-#if LOG_ON == 1
-        Serial.println(F("Solid_Violet"));
-#endif
+        LOGD_LN(F("Solid_Violet"));
         break;
 #endif
 
@@ -853,9 +745,7 @@ void getirl() {                                                   // This is the
       case IR_Key_Solid_White :            ///////////////////////////////////////////////////////////////////////////  Установить цвет Белый
         demorun = 0; ledMode = 100; palchg = 0;
         solid = CRGB::White;
-#if LOG_ON == 1
-        Serial.println(F("Solid_White"));
-#endif
+        LOGD_LN(F("Solid_White"));
         break;
 #endif
 
@@ -878,12 +768,8 @@ void bootme() {                                                 // This is used 
 
 
 void meshwait() {                                                   // After we press a mode key, we need to wait a bit for the sequence to start.
-
-#if LOG_ON == 1
-  Serial.print(F("Mesh delay: ")); Serial.print(meshdelay * 100); Serial.println(F("ms delay."));
-#endif
+  LOGD(F("Mesh delay: ")); LOGD(meshdelay * 100); LOGD_LN(F("ms delay."));
   FastLED.delay(meshdelay * 100);                                   // Here's our notamesh wait upon keypress. Oh god I'm so sorry there's a delay statement here. At least it's only used upon mode change keypress.
-
 } // meshwait()
 
 
